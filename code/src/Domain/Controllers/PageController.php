@@ -9,5 +9,10 @@ class PageController {
         $render = new Render();
         
         return $render->renderPage('page-index.tpl', ['title' => 'Главная страница']);
+        // return $render->renderPage('user-index.tpl', ['title' => 'Тестовый заголовок']);
+
+        file_put_contents(__DIR__ . '/debug.log', $output);
+
+    return $output;
     }
 }

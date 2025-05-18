@@ -23,28 +23,29 @@ class Render {
         
         $templateVariables['content_template_name'] = $contentTemplateName;
 
-        if(isset($_SESSION['user_name'])){
+        if (isset($_SESSION['user'])) {
             $templateVariables['user_authorized'] = true;
+            $templateVariables['user'] = $_SESSION['user'];
         }
- 
+
         return $template->render($templateVariables);
     }
 
     public function renderPageWithForm(string $contentTemplateName = 'page-index.tpl', array $templateVariables = []): string {
         $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-        
         $templateVariables['csrf_token'] = $_SESSION['csrf_token'];
- 
+
         return $this->renderPage($contentTemplateName, $templateVariables);
     }
 
     public function renderPartial(string $contentTemplateName, array $templateVariables = []): string {
         $template = $this->environment->load($contentTemplateName);
-        
-        if(isset($_SESSION['user_name'])){
+
+        if (isset($_SESSION['user'])) {
             $templateVariables['user_authorized'] = true;
+            $templateVariables['user'] = $_SESSION['user'];
         }
- 
+
         return $template->render($templateVariables);
     }
 }

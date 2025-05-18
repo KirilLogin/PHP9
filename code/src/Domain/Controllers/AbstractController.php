@@ -7,28 +7,34 @@ use Geekbrains\Application1\Application\Application;
 class AbstractController {
 
     protected array $actionsPermissions = [];
-    
-    public function getUserRoles(): array{
+
+    /**
+     * Получение ролей пользователя (если используется таблица user_roles)
+     */
+    public function getUserRoles(): array {
         $roles = [];
-        
-        if(isset($_SESSION['id_user'])){
-            $rolesSql = "SELECT * FROM user_roles WHERE id_user = :id";
+
+        if (isset($_SESSION['user']['id'])) {
+            $rolesSql = "SELECT role FROM user_roles WHERE id_user = :id";
 
             $handler = Application::$storage->get()->prepare($rolesSql);
-            $handler->execute(['id' => $_SESSION['id_user']]);
+            $handler->execute(['id' => $_SESSION['user']['id']]);
             $result = $handler->fetchAll();
-    
-            if(!empty($result)){
-                foreach($result as $role){
-                    $roles[] = $role['role'];
+
+            if (!empty($result)) {
+                foreach ($result as $row) {
+                    $roles[] = $row['role'];
                 }
             }
         }
-       
+
         return $roles;
     }
 
+    /**
+     * Возвращает список ролей, которым разрешён доступ к указанному методу
+     */
     public function getActionsPermissions(string $methodName): array {
-        return isset($this->actionsPermissions[$methodName]) ? $this->actionsPermissions[$methodName] : [];
+        return $this->actionsPermissions[$methodName] ?? [];
     }
 }

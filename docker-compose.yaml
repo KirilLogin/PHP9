@@ -43,6 +43,7 @@ services:
     volumes:
        - ./code:/data/mysite.local
     # мы можем создать для контейнеров внутреннюю сеть
+    command: tail -f /dev/null
     networks:
       - app-network
 

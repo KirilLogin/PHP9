@@ -4,4 +4,5 @@
     </div>
 {% else %}
     <p>Добро пожаловать на сайт!</p>
+    <p>Admin? {{ current_user_is_admin ? 'Да' : 'Нет' }}</p>
 {% endif %}

@@ -1,44 +1,83 @@
-<!DOCTYPE html>
-<html class="h-100">
-    <head>
-        <meta charset="UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-        <link rel="stylesheet" href="/css/main.css">
-        <script
-  src="https://code.jquery.com/jquery-3.7.0.min.js"
-  integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g="
-  crossorigin="anonymous"></script>
-        <script src="/js/main.js"></script>
-        <title>{{ title }}</title>
-    </head>
-    <body class="d-flex flex-column h-100">
+ <!DOCTYPE html>
+<html lang="ru" class="h-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    
+    <!-- Custom CSS -->
+    <link href="/css/main.css" rel="stylesheet">
+    
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
+</head>
+<body class="d-flex flex-column h-100">
+    <!-- Header -->
+    <p>main.tpl работает</p>
+    <header class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                    <svg class="bi me-2" width="40" height="32" role="img" aria-label="Bootstrap"><use xlink:href="#bootstrap"></use></svg>
-                </a>
-
-                <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                  <li><a href="/" class="nav-link px-2 link-secondary">Главная</a></li>
-                  <li><a href="/user/index/" class="nav-link px-2 link-dark">Пользователи</a></li>
+            <a class="navbar-brand" href="/">Geekbrains App</a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Главная</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/index/">Пользователи</a>
+                    </li>
                 </ul>
-
-                {% include "auth-template.tpl" %}
-            </header>
+                
+                <div class="d-flex">
+                    {% if user_authorized %}
+                        <span class="navbar-text me-3">
+                            Привет, {{ user.name }} {{ user.lastname }}
+                        </span>
+                        <a href="/user/logout/" class="btn btn-outline-light">Выйти</a>
+                    {% else %}
+                        <a href="/user/auth/" class="btn btn-outline-light">Войти</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
+    </header>
 
-        <main class="flex-shrink-0">
-          <div class="container content-template">
+    <!-- Main Content -->
+    <main class="flex-shrink-0">
+        <div class="container my-4">
+            {% block content %}
             {% include content_template_name %}
-          </div>
-        </main>
-  
-        <footer class="footer mt-auto py-3 bg-light">
-          <div class="container">
-            <span class="text-muted">Место для контента прикрепленного футера здесь.</span>
-          </div>
-        </footer>
+            {% endblock %}
+        </div>
+    </main>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    </body>
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <span class="text-muted">© 2023 Geekbrains Application</span>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/js/main.js"></script>
+    
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <!-- Toasts will be inserted here dynamically -->
+    </div>
+</body>
 </html>
