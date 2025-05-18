@@ -218,7 +218,7 @@ class UserController extends AbstractController {
     session_start();
     // Очистить все данные сессии
     $_SESSION = [];
-    // Уничтожить сессию
+    // Уничтожить сессию и
     session_destroy();
     // Перенаправить пользователя на главную страницу или страницу входа
     header('Location: /user/auth/');
